@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Style Test 2 — G — Olive oscuro (mostaza)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg: #1B1F1B;
+        --bg-alt: #232823;
+        --ink: #F1F2ED;
+        --ink-soft: rgba(241,242,237,0.6);
+        --accent: #C9A227;
+        --accent-deep: #8F7215;
+        --radius: 0px;
+        --border: 1.5px solid #F1F2ED;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); font-family: "Inter", sans-serif; color: var(--ink); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+      .clip { position: absolute; inset: 0; }
+      .scene { display: flex; align-items: center; padding: 0 140px; }
+      #bg-decor { background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc5NicgaGVpZ2h0PSc5Nic+CiAgICA8ZyBzdHJva2U9J3JnYmEoMjQxLDI0MiwyMzcsMC4wOSknIHN0cm9rZS13aWR0aD0nMSc+CiAgICAgIDxsaW5lIHgxPScwJyB5MT0nMCcgeDI9JzAnIHkyPSc5NicvPjxsaW5lIHgxPScwJyB5MT0nMCcgeDI9Jzk2JyB5Mj0nMCcvPgogICAgPC9nPgogIDwvc3ZnPg=='); background-size: 96px 96px; background-repeat: repeat; }
+
+      .label {
+        font-size: 16px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+        color: var(--accent); margin: 0 0 18px 0;
+      }
+      .display { font-family: "Space Grotesk", sans-serif; font-weight: 700; line-height: 1.05; margin: 0; color: var(--ink); }
+      .accent-word { color: var(--accent); }
+      .accent-underline { height: 5px; margin-top: 20px; background: var(--accent); }
+      .hairline { border-bottom: var(--border); }
+
+      /* Scene 1 — kinetic headline */
+      #scene-kinetic .kinetic-block { max-width: 1300px; }
+      #scene-kinetic .display { font-size: 108px; }
+      #scene-kinetic .word { display: inline-block; }
+      #scene-kinetic .accent-underline { width: 340px; }
+
+      /* Scene 2 — bar comparison */
+      #scene-bars .bars-block { width: 100%; max-width: 1200px; margin: 0 auto; }
+      .bar-row { margin-bottom: 46px; }
+      .bar-row .bar-label { display: flex; justify-content: space-between; font-family: "Space Grotesk", sans-serif; font-weight: 500; font-size: 28px; margin-bottom: 12px; }
+      .bar-row .bar-value { color: var(--accent); font-weight: 700; }
+      .bar-track { width: 100%; height: 28px; background: var(--bg-alt); border: var(--border); position: relative; overflow: hidden; }
+      .bar-fill { height: 100%; width: 0%; background: var(--ink-soft); }
+      .bar-fill.accent { background: var(--accent); }
+
+      /* Scene 3 — quote card */
+      #scene-quote .quote-card {
+        max-width: 1100px; margin: 0 auto; border: var(--border); background: var(--bg-alt);
+        padding: 64px 72px;
+      }
+      .quote-mark { font-family: "Space Grotesk", sans-serif; font-size: 140px; line-height: 0.6; color: var(--accent); margin-bottom: 8px; }
+      .quote-text { font-family: "Space Grotesk", sans-serif; font-weight: 500; font-size: 44px; line-height: 1.35; color: var(--ink); }
+      .quote-attr { margin-top: 28px; font-size: 20px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+
+      /* Scene 4 — roadmap */
+      #scene-roadmap .roadmap-block { width: 100%; max-width: 1500px; margin: 0 auto; }
+      .roadmap-line { position: relative; height: 2px; background: var(--ink-soft); margin: 0 30px 50px 30px; }
+      .roadmap-line-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--accent); }
+      .roadmap-stops { display: flex; justify-content: space-between; }
+      .roadmap-stop { text-align: center; width: 220px; opacity: 0; }
+      .roadmap-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); margin: -61px auto 22px; border: 4px solid var(--bg); }
+      .roadmap-stop .stop-num { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 22px; color: var(--accent); }
+      .roadmap-stop .stop-label { font-family: "Space Grotesk", sans-serif; font-weight: 500; font-size: 26px; margin-top: 6px; }
+
+      /* Scene 5 — close */
+      #scene-close .close-block { width: 100%; max-width: 1100px; margin: 0 auto; }
+      #scene-close .display { font-size: 100px; }
+      #scene-close .accent-underline { width: 380px; }
+      #scene-close .close-sub { font-size: 24px; color: var(--ink-soft); margin-top: 22px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="26.5">
+      <div id="bg-decor" class="clip" data-start="0" data-duration="26.5" data-track-index="0"></div>
+
+      <section id="scene-kinetic" class="clip scene" data-start="0" data-duration="5.0" data-track-index="1">
+        <div class="kinetic-block">
+          <div class="label" id="k-label">frame.md — ronda 2</div>
+          <h1 class="display" id="k-headline">
+            <span class="word">Diseño.</span>
+            <span class="word">Repetible.</span>
+            <span class="word accent-word">Automático.</span>
+          </h1>
+          <div class="accent-underline" id="k-underline"></div>
+        </div>
+      </section>
+
+      <section id="scene-bars" class="clip scene" data-start="5.0" data-duration="6.0" data-track-index="1">
+        <div class="bars-block">
+          <div class="label" id="b-label">manual vs. automatizado</div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Manual</span><span class="bar-value" id="b-val-1">0h</span></div>
+            <div class="bar-track"><div class="bar-fill" id="b-fill-1"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Automatizado</span><span class="bar-value" id="b-val-2">0h</span></div>
+            <div class="bar-track"><div class="bar-fill accent" id="b-fill-2"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-quote" class="clip scene" data-start="11.0" data-duration="5.5" data-track-index="1">
+        <div class="quote-card" id="q-card">
+          <div class="quote-mark">&ldquo;</div>
+          <div class="quote-text">El editor no decide el estilo cada vez — lo consulta.</div>
+          <div class="quote-attr">frame.md · principio de diseño</div>
+        </div>
+      </section>
+
+      <section id="scene-roadmap" class="clip scene" data-start="16.5" data-duration="6.0" data-track-index="1">
+        <div class="roadmap-block">
+          <div class="label" id="r-label">pipeline de edición</div>
+          <div class="roadmap-line"><div class="roadmap-line-fill" id="r-line"></div></div>
+          <div class="roadmap-stops">
+            <div class="roadmap-stop" id="r-stop-1"><div class="roadmap-dot"></div><div class="stop-num">01</div><div class="stop-label">Recursos</div></div>
+            <div class="roadmap-stop" id="r-stop-2"><div class="roadmap-dot"></div><div class="stop-num">02</div><div class="stop-label">Tomas</div></div>
+            <div class="roadmap-stop" id="r-stop-3"><div class="roadmap-dot"></div><div class="stop-num">03</div><div class="stop-label">Montaje</div></div>
+            <div class="roadmap-stop" id="r-stop-4"><div class="roadmap-dot"></div><div class="stop-num">04</div><div class="stop-label">Notion</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-close" class="clip scene" data-start="22.5" data-duration="4.0" data-track-index="1">
+        <div class="close-block">
+          <h2 class="display" id="close-line">Tu estilo. <span class="accent-word">Cada vez.</span></h2>
+          <div class="accent-underline" id="close-underline"></div>
+          <div class="close-sub">frame.md — ronda 2 de comparación</div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Scene 1 — kinetic headline, word by word
+      tl.from("#k-label", { y: 16, opacity: 0, duration: 0.5 }, 0.15);
+      tl.from("#k-headline .word", { y: 40, opacity: 0, duration: 0.55, ease: "power3.out", stagger: 0.22 }, 0.5);
+      tl.fromTo("#k-underline", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out", transformOrigin: "left center" }, 1.85);
+
+      // Scene 2 — bar comparison
+      tl.from("#b-label", { y: 16, opacity: 0, duration: 0.5 }, 5.15);
+      tl.to("#b-fill-1", { width: "42%", duration: 1.2, ease: "power2.out" }, 5.4);
+      {
+        const c1 = { v: 0 };
+        tl.to(c1, { v: 6, duration: 1.2, onUpdate: () => { document.getElementById("b-val-1").textContent = c1.v.toFixed(1) + "h"; } }, 5.4);
+      }
+      tl.to("#b-fill-2", { width: "9%", duration: 1.2, ease: "power2.out" }, 6.0);
+      {
+        const c2 = { v: 0 };
+        tl.to(c2, { v: 1.3, duration: 1.2, onUpdate: () => { document.getElementById("b-val-2").textContent = c2.v.toFixed(1) + "h"; } }, 6.0);
+      }
+
+      // Scene 3 — quote card
+      tl.fromTo("#q-card", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65, ease: "power3.out" }, 11.2);
+
+      // Scene 4 — roadmap
+      tl.from("#r-label", { y: 16, opacity: 0, duration: 0.5 }, 16.65);
+      tl.to("#r-line", { width: "100%", duration: 2.0, ease: "power1.inOut" }, 16.9);
+      tl.to("#r-stop-1", { opacity: 1, duration: 0.4 }, 17.0);
+      tl.to("#r-stop-2", { opacity: 1, duration: 0.4 }, 17.6);
+      tl.to("#r-stop-3", { opacity: 1, duration: 0.4 }, 18.2);
+      tl.to("#r-stop-4", { opacity: 1, duration: 0.4 }, 18.8);
+
+      // Scene 5 — close
+      tl.from("#close-line", { y: 28, opacity: 0, duration: 0.6, ease: "power3.out" }, 22.65);
+      tl.fromTo("#close-underline", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out", transformOrigin: "left center" }, 23.2);
+      tl.from(".close-sub", { opacity: 0, duration: 0.5 }, 23.5);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

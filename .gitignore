@@ -1,0 +1,24 @@
+# Investigación cruda (se regenera); el digest.md de cada tema sí se versiona
+Planning/code/topic-deep-research/results/*/*.json
+
+# Media pesada y generada
+# (el Brand Kit de cada línea sí se versiona)
+Personal Content/*
+!Personal Content/Brand Kit/
+Other Content/*
+!Other Content/Brand Kit/
+**/Raw/
+**/renders/
+*.mp4
+*.mov
+*.wav
+*.mp3
+
+# Dependencias y temporales
+node_modules/
+.env
+.DS_Store
+Thumbs.db
+
+# Config local de Claude
+.claude/settings.local.json
