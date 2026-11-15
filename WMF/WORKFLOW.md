@@ -18,7 +18,7 @@ flowchart TD
     RETRO["Retro · sesión hija, OPCIONAL<br/>diálogo contigo sobre el flujo"]:::human
 
     subgraph PLANNING["PLANNING · artefactos en Planning/content/‹slug›/"]
-        R1["① topic-deep-research<br/>CLI · OPCIONAL"]:::auto
+        R1["① topic-deep-research<br/>CLI · según el formato<br/>concept: solo YouTube"]:::auto
         R2["② research-digest<br/>subagente"]:::sub
         S3["③ schema-builder<br/>diálogo contigo"]:::human
         S4["④ script-writer<br/>diálogo contigo · inglés"]:::human
@@ -46,7 +46,7 @@ flowchart TD
 
     R1 -->|"signals_enriched.json<br/>discovered_sources.json"| R2
     R2 -->|digest.md| S3
-    R1 -.->|"se omite en conceptos"| S3
+    R1 -.->|"se omite en otro formato<br/>o sin formato"| S3
     S3 -->|"schema.md + Topic y Pieces en Notion"| S4
     S4 -->|"script.en.md aprobado"| S5
     S5 --> S5b
@@ -91,7 +91,7 @@ orquestador comprueba el archivo, no solo el reporte de la hija.
 
 | # | Etapa | Tipo | Requiere | Usa | Produce | Fuente de verdad |
 |---|---|---|---|---|---|---|
-| ① | topic-deep-research | automática, opcional | un string de tema | — | `signals_enriched.json`, `discovered_sources.json` | [STAGE.md](../Planning/code/topic-deep-research/STAGE.md) |
+| ① | topic-deep-research | automática, según el formato (concept: solo YouTube) | un string de tema | — | `signals_enriched.json`, `discovered_sources.json` | [STAGE.md](../Planning/code/topic-deep-research/STAGE.md) |
 | ② | research-digest | subagente | los dos JSON de ① | — | `digest.md` | [agente](../.claude/agents/research-digest.md) |
 | ③ | schema-builder | conversacional | un tema | `digest.md` | `schema.md`, Topic + Pieces en Notion | [SKILL](../.claude/skills/schema-builder/SKILL.md) |
 | ④ | script-writer | conversacional (inglés) | `schema.md` | `digest.md` | `<pieza>/script.en.md` con `Delivery: on-camera \| voice-only` | [SKILL](../.claude/skills/script-writer/SKILL.md) |
@@ -109,8 +109,9 @@ Orquestación: [video-orchestrator](../.claude/skills/video-orchestrator/SKILL.m
 del pipeline**. Ninguna skill de etapa se invoca suelta, y rehacer una etapa también nace ahí: relanza la
 hija como revisión y marca `desactualizada` las etapas posteriores que leen lo que cambió (no las relanza
 sola). Lanza cada etapa como sesión hija limpia: no abres ni nombras chats, entras a las conversacionales
-(③ ④ ⑤) y las automáticas (① ⑥ ⑦ ⑧) solo te llaman en sus gates. La investigación es solo la etapa ①;
-③ no investiga: si la quieres, pídesela al orquestador. Cada skill de etapa abre con un *Contrato de la
+(③ ④ ⑤) y las automáticas (① ⑥ ⑦ ⑧) solo te llaman en sus gates. La investigación es solo la etapa ① y
+corre según el formato ([FORMATS](FORMATS.md)); ③ no investiga: si ① no corrió y la quieres, pídesela al
+orquestador. Cada skill de etapa abre con un *Contrato de la
 etapa* (tipo, brief, lee, escribe, no hace, habla con Santiago, termina cuando) y las reglas comunes de
 toda sesión hija; ese detalle vive en la skill, no aquí.
 

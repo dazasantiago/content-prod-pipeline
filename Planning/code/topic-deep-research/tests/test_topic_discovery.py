@@ -250,6 +250,18 @@ def test_discover_topic_signals_interleaves_hn_and_youtube(
     assert "youtube" in sources
 
 
+def test_discover_topic_signals_only_selected_sources(monkeypatch: pytest.MonkeyPatch) -> None:
+    """`--sources youtube`: no call may reach HN or X, even with an X token in the environment."""
+    monkeypatch.setenv("YOUTUBE_API_KEY", "fake-key")
+    monkeypatch.setenv("X_BEARER_TOKEN", "fake-token")
+    client = _yt_client(_SEARCH_ONE, _VIDEOS_ONE, _CHANNELS_ONE)
+
+    signals = discover_topic_signals("topic", client, per_source=1, sources=frozenset({"youtube"}))
+
+    assert {s.source for s in signals} == {"youtube"}
+    assert client.calls and all(url.startswith(_YT) for url, _ in client.calls)
+
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def test_interleave_round_robin() -> None:

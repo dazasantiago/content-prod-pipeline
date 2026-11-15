@@ -9,7 +9,7 @@ skill: the child runs the CLI and then launches the `research-digest` subagent.
 | | |
 |---|---|
 | **Type** | automatic: it never talks to Santiago |
-| **Brief** | project slug and the topic string |
+| **Brief** | project slug and the topic string (plus `--sources youtube` for a concept video) |
 | **Reads** | nothing from the pipeline: just the topic string (and optional seed links) |
 | **Writes** | `results/<slug>/signals_enriched.json`, `discovered_sources.json`, and (via `research-digest`) `digest.md` |
 | **Doesn't** | build the schema, judge the content or call any LLM API |
@@ -117,6 +117,9 @@ with the same pipeline as Mode 1.
 
 Additional flag:
 - `--per-source <n>` — signals to fetch per source (default: 8)
+- `--sources <list>` — `all` (default) or a comma-separated subset of `hn`, `youtube`, `x`, `web`
+  (Tavily). `--sources youtube` is the light research used for **concept** videos: only YouTube is
+  queried, so no X credits and no Tavily search are spent. Topic mode only.
 
 **Sources used for discovery:**
 

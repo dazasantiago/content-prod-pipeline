@@ -20,21 +20,27 @@ _X_SEARCH = "https://api.x.com/2/tweets/search/all"
 _X_FIELDS = "created_at,conversation_id,lang,note_tweet,public_metrics,author_id"
 _HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; deep-research-bot/1.0)"}
 
+# `web` is Tavily web search, run by the pipeline rather than here; it is listed so --sources can name it.
+ALL_SOURCES: frozenset[str] = frozenset({"hn", "youtube", "x", "web"})
+
 
 def discover_topic_signals(
-    topic: str, http: httpx.Client, per_source: int = 8
+    topic: str,
+    http: httpx.Client,
+    per_source: int = 8,
+    sources: frozenset[str] = ALL_SOURCES,
 ) -> list[Signal]:
-    """Discover signals about `topic` from HN, YouTube and X, interleaved.
+    """Discover signals about `topic` from HN, YouTube and X (those in `sources`), interleaved.
 
     Reddit is intentionally excluded: old.reddit.com/search.json blocks bots
     unreliably, and Tavily (run in the same pipeline via discover_sources) already
     surfaces the most relevant Reddit threads as discovered_sources.
     """
-    hn = discover_hn_signals(topic, http, per_source)
+    hn = discover_hn_signals(topic, http, per_source) if "hn" in sources else []
     log.info("HN discovery: %d signals", len(hn))
-    yt = discover_youtube_signals(topic, http, per_source)
+    yt = discover_youtube_signals(topic, http, per_source) if "youtube" in sources else []
     log.info("YouTube discovery: %d signals", len(yt))
-    x = discover_x_signals(topic, http, per_source)
+    x = discover_x_signals(topic, http, per_source) if "x" in sources else []
     log.info("X discovery: %d signals", len(x))
     combined = _interleave(hn, yt, x)
     log.info("Total interleaved: %d signals", len(combined))

@@ -3,6 +3,15 @@
 Solo cambios del **sistema** (etapas, herramientas, reglas, estructura). El contenido de los proyectos
 no va aquí. Lo más nuevo, arriba. El porqué está en [DECISIONS](DECISIONS.md).
 
+## 2026-11-10
+
+- **Concept investiga, en ligera y solo con YouTube.** ① corre con el flag nuevo `--sources` del CLI
+  (`all` por defecto, o `hn`/`youtube`/`x`/`web`; solo modo `--topic`) y ② corre tras ella. Case y news:
+  completa; otro formato o sin formato: omitida salvo que la pidas. Ver [DECISIONS](DECISIONS.md),
+  [FORMATS](FORMATS.md) y [RUNBOOK](RUNBOOK.md).
+- **WORKFLOW y FORMATS corregidos:** ① pasa de "opcional" a "según el formato" y la arista "se omite en
+  conceptos" ya no existe; la fila News dice "completa" (el modo `fresco` es B-3, aún sin construir).
+
 ## 2026-11-09 — consolidación
 
 - **Un proyecto = un tema, con `Raw/` y `Final pieces/`.** El orquestador crea el esqueleto;

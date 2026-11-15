@@ -50,8 +50,9 @@ corren solas y solo lo llaman cuando necesitan una decisión suya.
 1. Toma de lo que Santiago dijo la **línea** (`Personal Content`, o `Other Content` si no es del
    canal), el **formato** (concept / case / news / otro; ver `WMF/FORMATS.md`), la **entrega** por pieza
    (`on-camera` o `voice-only`) y qué etapas aplican. Lo que no haya dicho va por defecto: línea
-   `Personal Content`, entrega `on-camera`, sin `deep-research`, flujo estándar de ⑥ a ⑧; si trae el
-   guion hecho, las etapas de Planning se omiten. Registra lo asumido en el estado.
+   `Personal Content`, entrega `on-camera`, investigación según el formato (ver abajo; sin formato, sin
+   investigación), flujo estándar de ⑥ a ⑧; si trae el guion hecho, las etapas de Planning se omiten.
+   Registra lo asumido en el estado.
 2. El **slug** es el del tema de Planning, exacto (nunca un título "bonito"). En Other Content, el que
    acuerden.
 3. Crea el esqueleto del proyecto, si no existe:
@@ -104,7 +105,7 @@ la pieza si aplica, las rutas de entrada y qué skill invocar. Nunca copies esta
 
 | Etapa | Tipo | Cómo se invoca en la hija | La hija termina cuando |
 |---|---|---|---|
-| deep-research ① *(opcional por formato)* | automática | CLI `uv run deep-research --topic "<tema>"` desde `Planning/code/topic-deep-research`; al terminar lanza el subagente `research-digest` | existe `digest.md` |
+| deep-research ① *(según el formato)* | automática | CLI `uv run deep-research --topic "<tema>"` desde `Planning/code/topic-deep-research`, con `--sources youtube` si el formato es concept; al terminar lanza el subagente `research-digest` | existe `digest.md` |
 | schema-builder ③ | **conversacional** | skill `schema-builder` | Santiago aprobó los esquemas (Topic + Pieces en Notion) |
 | script-writer ④ | **conversacional**, en inglés | skill `script-writer` | script aprobado por pieza (`script.en.md` sellado) |
 | visual-script ⑤ | **conversacional** | skill `visual-script`; al aprobar lanza el subagente `visuals-indexer` | `visuals.md` aprobado y `resources.md` + `pre-capture-guide.md` generados |
@@ -141,7 +142,9 @@ estado, averigua el estado leyendo el archivo; no asumas.
 
 Orden y condiciones:
 
-1. **deep-research** solo si el formato lo pide o él lo pide; si no, `omitida`.
+1. **deep-research** según el formato (`WMF/FORMATS.md`): **concept** → investigación ligera, solo YouTube
+   (`--sources youtube`), para ver cómo otros estructuran el concepto; **case** o **news** → completa
+   (todas las fuentes); otro formato o sin formato → `omitida`, salvo que Santiago la pida.
 2. **schema-builder → script-writer → visual-script**, secuenciales.
 3. Con `visual-script` en `hecha`: lanza `resource-fetcher` **en paralelo** con la grabación y dile que
    ya puede grabar con `pre-capture-guide.md`.

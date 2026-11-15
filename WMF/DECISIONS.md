@@ -118,6 +118,15 @@ librería 1.2+. Prueba real con "how an IPO works": 8 videos con cifras, 5 con t
 ese margen; hay pocos comentarios por video (algunos son el anuncio fijado o spam); y raspar
 transcripciones depende de que YouTube no bloquee ([R-9](RISKS-AND-BACKLOG.md)).
 
+### 🟢 Concept también investiga, en ligera y solo con YouTube (2026-11-10)
+Santiago: quiere ver cómo otros creadores estructuran el concepto. Por eso ① corre para concept con
+`--sources youtube` (el flag nuevo del CLI: solo YouTube, sin créditos de X ni búsquedas de Tavily) y ②
+corre tras ella, con un digest corto. Qué corre en cada formato: [FORMATS](FORMATS.md).
+**Evidencia:** `FORMATS` decía que concept casi no necesitaba investigación porque el deep research del
+IPO devolvió casi solo glosarios, pero esa corrida no tenía datos de YouTube (la transcripción fallaba en
+silencio; entrada anterior), así que no probaba nada contra esta vía. Prueba real con "what is a bond":
+5 señales, todas de YouTube, 0 fuentes descubiertas.
+
 ### 🟢 Publicar queda fuera de alcance
 El pipeline termina en "pieza editada, Notion en `Edited`"; subir a las plataformas es manual. Decisión
 explícita, anotada para no reabrirla por accidente.

@@ -6,11 +6,27 @@ from pathlib import Path
 import typer
 from dotenv import load_dotenv
 
+from deep_research.topic_discovery import ALL_SOURCES
+
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
 app = typer.Typer(name="deep-research", add_completion=False)
+
+
+def parse_sources(raw: str) -> frozenset[str]:
+    """`all` or a comma-separated subset of hn, youtube, x, web."""
+    if raw.strip().lower() == "all":
+        return ALL_SOURCES
+    chosen = frozenset(p.strip().lower() for p in raw.split(",") if p.strip())
+    unknown = chosen - ALL_SOURCES
+    if not chosen or unknown:
+        raise typer.BadParameter(
+            f"--sources takes 'all' or a comma-separated list of {sorted(ALL_SOURCES)}; "
+            f"got {sorted(unknown) or raw!r}"
+        )
+    return chosen
 
 
 @app.command()
@@ -25,6 +41,11 @@ def research(
     per_source: int = typer.Option(
         8, "--per-source", help="Signals discovered per source in --topic mode"
     ),
+    sources: str = typer.Option(
+        "all",
+        "--sources",
+        help="--topic mode: all, or a comma-separated list of hn, youtube, x, web (e.g. youtube)",
+    ),
 ) -> None:
     """Deep-scrape a classified topic: enrich signals and discover new sources.
 
@@ -32,6 +53,10 @@ def research(
     """
     if (input is None) == (topic is None):
         typer.echo("Error: provide exactly one of --input or --topic", err=True)
+        raise typer.Exit(1)
+    chosen_sources = parse_sources(sources)
+    if input is not None and chosen_sources != ALL_SOURCES:
+        typer.echo("Error: --sources only applies to --topic mode", err=True)
         raise typer.Exit(1)
 
     if topic is not None:
@@ -44,6 +69,7 @@ def research(
             top_comments=top_comments,
             per_source=per_source,
             out_dir=out_dir,
+            sources=chosen_sources,
         )
     else:
         assert input is not None

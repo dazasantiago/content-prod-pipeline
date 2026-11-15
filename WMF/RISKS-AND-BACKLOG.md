@@ -28,7 +28,7 @@ Ninguna abierta por ahora.
 |---|---|---|---|
 | B-1 | **Grabar y editar el primer video del canal** y cerrar las apuestas 🟡 | — | Es la prueba de todo lo demás |
 | B-2 | Primer commit de `Production/` (único repo: sistema + `Planning/`) y un remoto para él (solo texto) | Bajo | Hoy el repo no tiene commits |
-| B-3 | Investigación modular: modos `verify` / `deep` / `fresh`, ventana de recencia, fuentes de negocio (filings, earnings) en vez de HN | Medio-alto | Se pide con el primer Case o News real |
+| B-3 | Investigación modular: modos `verify` / `deep` / `fresh`, ventana de recencia, fuentes de negocio (filings, earnings) en vez de HN. Primer paso ya hecho: `--sources` elige las fuentes (concept usa `youtube`); faltan los modos, la recencia y las fuentes de negocio | Medio-alto | Se pide con el primer Case o News real |
 | B-4 | Taxonomía de Notion `Content Type`: hoy `News / Tool Review / Workflow Walkthrough` → `Concept / Case / News` (y que `schema-builder` Fase 5 la use) | Bajo | `schema-builder` crea hoy con la taxonomía del canal anterior |
 | B-5 | Probar el corte de audio puro (voice-only) con una grabación real | Bajo | Apuesta 🟡 sin evidencia |
 | B-7 | Repoblar los Brand Kit (hoy en blanco): un `visual.md` por línea cuando un estilo se repita entre proyectos, y luego `audio.md`, `voice.md`, `motion.md` | Bajo | Se crean cuando un video muestre qué preferencias hacen falta; `edit-composer` ofrece subir el estilo acordado (solo con tu sí) |

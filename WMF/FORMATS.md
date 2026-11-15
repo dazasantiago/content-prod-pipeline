@@ -9,8 +9,8 @@ Leyenda: ● corre · ◐ versión ligera · ○ se omite · ◌ por definir
 
 | Etapa | Concept (IPO, bonos, acciones) | Case (startup, industria) | News (tech, industrias) | Coverage (vida real, futuro) |
 |---|---|---|---|---|
-| ① research | ◐ **verificación**: 1–2 fuentes primarias para confirmar definiciones y cifras | ● **profundo**: filings, rondas, prensa, entrevistas | ◐ **fresco**: ventana de días, pocas fuentes | ○ o contexto previo ligero |
-| ② digest | ○ | ● contradicciones y huecos son el ángulo | ◐ corto | ○ |
+| ① research | ◐ **solo YouTube** (`--sources youtube`): cómo otros creadores estructuran el concepto | ● **profundo**: filings, rondas, prensa, entrevistas | ● hoy completa, todas las fuentes; el modo **fresco** (ventana de días, pocas fuentes) es [B-3](RISKS-AND-BACKLOG.md) | ○ o contexto previo ligero |
+| ② digest | ◐ corto: la sección de YouTube y poco más | ● contradicciones y huecos son el ángulo | ◐ corto | ○ |
 | ③ schema | ◐ analogía, 3–5 beats, malentendidos comunes | ● tesis, línea de tiempo, cifras, contrapunto | ◐ qué pasó, por qué importa, qué sigue | ◐ plan del evento |
 | ④ script | ● | ● | ● | ◌ guion posterior al footage |
 | ⑤ visual-script | ● pesado en `GFX`: mecanismos, analogías | ● pesado en dato: gráficas y timelines (`GFX`), capturas de filings (`SCR`) | ◐ titulares, citas, una gráfica | ◐ solo overlays |
@@ -22,9 +22,10 @@ Leyenda: ● corre · ◐ versión ligera · ○ se omite · ◌ por definir
 
 ## Notas
 
-- **Concept** es donde más sobra pipeline. Ruta realista: tema → verificación → schema ligero →
-  script → visual-script → edición. Sin digest. Evidencia: el deep research del tema IPO devolvió
-  casi solo glosarios introductorios.
+- **Concept** es donde más sobra pipeline. Ruta realista: tema → investigación ligera (solo YouTube) →
+  digest corto → schema ligero → script → visual-script → edición. La investigación busca estructura,
+  no confirma cifras: eso sigue siendo la regla del formato. Por qué corre: [DECISIONS](DECISIONS.md).
+- **Otro formato o sin formato:** ① se omite salvo que la pidas (regla del orquestador).
 - **Case** es el único donde ①② pagan su costo completo.
 - **News** compite contra el tiempo; el orquestador ya quita la fricción de abrir chats a mano.
 - **Coverage** rompe el supuesto central (guion → grabación → edición). Hoy no cabe; la costura (que ⑦

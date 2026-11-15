@@ -20,6 +20,7 @@ def run(
     top_comments: int = 10,
     out_dir: Path = Path("results"),
     force_youtube: bool = False,
+    web: bool = True,
 ) -> tuple[Path, TopicResult]:
     enrichers: list[Enricher] = [
         XEnricher(token=os.environ.get("X_BEARER_TOKEN", "")),
@@ -34,7 +35,9 @@ def run(
             enrichers=enrichers,
             http=http,
         )
-        discovered: list[DiscoveredSource] = discover_sources(topic_input.topic)  # type: ignore[assignment]
+        discovered: list[DiscoveredSource] = (
+            discover_sources(topic_input.topic) if web else []  # type: ignore[assignment]
+        )
 
     usable = [s for s in enriched if s.full_text]
 
@@ -57,12 +60,14 @@ def run_topic(
     top_comments: int = 10,
     per_source: int = 8,
     out_dir: Path = Path("results"),
+    sources: frozenset[str] | None = None,
 ) -> tuple[Path, TopicResult]:
-    """Discover signals for `topic` from scratch (HN, Reddit, YouTube) then enrich them."""
-    from deep_research.topic_discovery import discover_topic_signals
+    """Discover signals for `topic` from scratch, from `sources` (default all), then enrich them."""
+    from deep_research.topic_discovery import ALL_SOURCES, discover_topic_signals
 
+    chosen = ALL_SOURCES if sources is None else sources
     with httpx.Client(follow_redirects=True) as http:
-        signals = discover_topic_signals(topic, http, per_source=per_source)
+        signals = discover_topic_signals(topic, http, per_source=per_source, sources=chosen)
 
     topic_input = TopicInput(
         topic=topic,
@@ -75,6 +80,7 @@ def run_topic(
         top_comments=top_comments,
         out_dir=out_dir,
         force_youtube=True,
+        web="web" in chosen,
     )
 
 
