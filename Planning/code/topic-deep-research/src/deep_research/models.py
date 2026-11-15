@@ -55,3 +55,4 @@ class TopicResult:
     discovered_sources: list[DiscoveredSource]
     generated_at: str
     signals_attempted: int = 0
+    run_report: dict[str, object] | None = None

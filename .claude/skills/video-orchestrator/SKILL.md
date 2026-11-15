@@ -106,7 +106,7 @@ la pieza si aplica, las rutas de entrada y qué skill invocar. Nunca copies esta
 
 | Etapa | Tipo | Cómo se invoca en la hija | La hija termina cuando |
 |---|---|---|---|
-| deep-research ① *(según el formato)* | automática | CLI `uv run deep-research --topic "<tema>"` desde `Planning/code/topic-deep-research`, con `--sources youtube` si el formato es concept; al terminar lanza el subagente `research-digest` | existe `digest.md` |
+| deep-research ① *(según el formato)* | automática | CLI `uv run deep-research --topic "<tema>"` desde `Planning/code/topic-deep-research`, con `--sources youtube` si el formato es concept; al terminar lanza el subagente `research-digest` | existe `digest.md` y `run.json` muestra al menos un `ok` por cada fuente pedida; si una fuente pedida quedó en 0, la etapa es `bloqueada` y se informa el motivo (`problems`) |
 | contextualizer ③ *(según el formato)* | **conversacional** | skill `contextualizer` | Santiago confirmó que entendió y `context.md` quedó sellado |
 | schema-builder ④ | **conversacional** | skill `schema-builder` | Santiago aprobó los esquemas (Topic + Pieces en Notion) |
 | script-writer ⑤ | **conversacional**, en inglés | skill `script-writer` | script aprobado por pieza (`script.en.md` sellado) |
@@ -147,6 +147,9 @@ Orden y condiciones:
 1. **deep-research** según el formato (`WMF/FORMATS.md`): **concept** → investigación ligera, solo YouTube
    (`--sources youtube`), para ver cómo otros estructuran el concepto; **case** o **news** → completa
    (todas las fuentes); otro formato o sin formato → `omitida`, salvo que Santiago la pida.
+   **No reutilices una investigación anterior sin comprobarla:** solo vale si existe su `run.json` y cubre
+   las fuentes que pide el formato (concept: `youtube` con `ok` mayor que 0). Sin `run.json` (corridas
+   anteriores al 2026-11-15) o con una fuente pedida en 0, relanza ①.
 2. **contextualizer → schema-builder → script-writer → visual-script**, secuenciales. El contextualizer corre
    según el formato (`WMF/FORMATS.md`): **concept** y **case** → sí; **news** → sí, en corto; otro formato
    o sin formato → `omitida`, salvo que Santiago lo pida. Si corrió la investigación (①②), el

@@ -16,7 +16,7 @@ trabajo pendiente.
 | R-6 | **Sesgo tech residual** en las fuentes de investigación (HN, YouTube, X, Tavily) | Bajo-medio | B-3 |
 | R-7 | **Monotonía visual** si todo converge al mismo look | Medio | Decisión de estilo pendiente a propósito; el estilo se acuerda por proyecto y se revisa tras el primer video. Si uno se repite, B-7 |
 | R-8 | **Material pesado fuera de git** (videos, `Raw/`, renders) sin respaldo propio | Medio | GitHub no los admite (límite de 100 MB por archivo); respaldarlos en un disco o en Drive |
-| R-9 | **La transcripción de YouTube depende de que YouTube no bloquee la IP.** Sin transcripción, el video no aporta estructura al digest | Bajo-medio | El CLI avisa del bloqueo; respaldo `YOUTUBE_COOKIES_FILE` (cookies de un navegador con sesión). Ver [RUNBOOK](RUNBOOK.md) |
+| R-9 | **La transcripción de YouTube depende de que YouTube no bloquee la IP.** Sin transcripción, el video no aporta estructura al digest | Bajo-medio | `run.json` hace visible el fallo (`problems` y `failed` por video) y ① se bloquea si la fuente queda en `ok` 0; con `ok` ≥ 1 pasa y los videos caídos solo se ven ahí. Respaldo `YOUTUBE_COOKIES_FILE` (cookies de un navegador con sesión). Ver [RUNBOOK](RUNBOOK.md) |
 | R-10 | **La calidad de ③ `contextualizer` depende de poder verificar fuentes primarias en la web** (un dato tras un muro de pago queda `[UNVERIFIED]`), y la etapa **aún no se ha probado con un video real** | Medio | Lo no verificable queda `[UNVERIFIED]` visible en `context.md` y se verifica o Santiago decide dejarlo fuera antes de sellar; cada cifra lleva su fecha de consulta. Se evalúa con el primer video que la use |
 
 ## Decisiones abiertas (son tuyas)

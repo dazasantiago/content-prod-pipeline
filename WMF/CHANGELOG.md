@@ -5,6 +5,17 @@ no va aquí. Lo más nuevo, arriba. El porqué está en [DECISIONS](DECISIONS.md
 
 ## 2026-11-15
 
+- **③ `contextualizer` conversa un hilo a la vez:** Fase 1 es un diagnóstico (qué sabe Santiago y qué no) y
+  la Fase 2 un diálogo de una idea por turno, con una sola pregunta, sin muros de subtítulos y con cola de
+  hilos pendientes; los hallazgos del digest entran cuando tocan. En `news` sí hay un overview corto
+  inicial. Ver [DECISIONS](DECISIONS.md) y el [SKILL](../.claude/skills/contextualizer/SKILL.md).
+- **`run.json` en la investigación (①):** el CLI escribe `results/<slug>/run.json` y lo imprime: por fuente,
+  señales `attempted`/`ok`/`skipped`/`error`, `problems` y `failed`; una fuente pedida sin señales sale con
+  ceros. ① solo termina con al menos un `ok` por cada fuente pedida; si no, queda `bloqueada`. Ver
+  [DECISIONS](DECISIONS.md), [RUNBOOK](RUNBOOK.md) y [WORKFLOW](WORKFLOW.md).
+- **El orquestador no reutiliza una investigación anterior** sin su `run.json` o con una fuente pedida en
+  0 (concept: `youtube` con `ok` > 0); las anteriores al 2026-11-15 se relanzan. Ver
+  [DECISIONS](DECISIONS.md).
 - **Etapa nueva ③ `contextualizer`** (conversacional), entre ② y el schema: explica el tema y lo
   investigado (`digest.md`), verifica cada cifra con fuente y deja `context.md`. `schema-builder` lo lee y
   ya no explica; `script-writer` lo toma como universo de hechos. Corre en concept y case; en news, en

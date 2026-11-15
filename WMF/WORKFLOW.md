@@ -45,7 +45,7 @@ flowchart TD
     ORQ -. "al cerrar, si aceptas" .-> RETRO
     RETRO -. "decisiones y lecciones" .-> ORQ
 
-    R1 -->|"signals_enriched.json<br/>discovered_sources.json"| R2
+    R1 -->|"signals_enriched.json<br/>discovered_sources.json<br/>run.json · ≥1 ok por fuente pedida"| R2
     R2 -->|digest.md| C3
     R1 -.->|"se omite en otro formato o sin formato<br/>③ no depende de él: sin digest explica solo el tema"| C3
     C3 -->|"context.md aprobado<br/>(④ también lee digest.md)"| S3
@@ -73,6 +73,7 @@ lanza o se omite.
 
 | Gate | Dónde | Quién lo cruza |
 |---|---|---|
+| Investigación válida | ① → ② | Automático: `run.json` con al menos un `ok` por cada fuente pedida; si no, ① queda `bloqueada` con el motivo. El orquestador no reutiliza una investigación anterior sin `run.json` o con una fuente pedida en 0 |
 | Aprobar contexto | ③ → ④ | **Tú**, explícito: dices que ya entendiste y `context.md` queda sellado (`Estado: aprobado <fecha>`). Cada `[UNVERIFIED]` se verifica o tú decides dejarlo fuera |
 | Aprobar esquemas | ④ → ⑤ | **Tú**, explícito. Al aprobar se crean Topic + Pieces en Notion (`In Production`) |
 | Aprobar guion | ⑤ → ⑥ | **Tú**. Un `[UNVERIFIED]` no puede sobrevivir a la aprobación |
@@ -94,7 +95,7 @@ orquestador comprueba el archivo, no solo el reporte de la hija.
 
 | # | Etapa | Tipo | Requiere | Usa | Produce | Fuente de verdad |
 |---|---|---|---|---|---|---|
-| ① | topic-deep-research | automática, según el formato (concept: solo YouTube) | un string de tema | — | `signals_enriched.json`, `discovered_sources.json` | [STAGE.md](../Planning/code/topic-deep-research/STAGE.md) |
+| ① | topic-deep-research | automática, según el formato (concept: solo YouTube) | un string de tema | — | `signals_enriched.json`, `discovered_sources.json`, `run.json` | [STAGE.md](../Planning/code/topic-deep-research/STAGE.md) |
 | ② | research-digest | subagente | los dos JSON de ① | — | `digest.md` | [agente](../.claude/agents/research-digest.md) |
 | ③ | contextualizer | conversacional, según el formato (news: en corto) | un tema | `digest.md` | `context.md` | [SKILL](../.claude/skills/contextualizer/SKILL.md) |
 | ④ | schema-builder | conversacional | un tema | `context.md`, `digest.md` | `schema.md`, Topic + Pieces en Notion | [SKILL](../.claude/skills/schema-builder/SKILL.md) |

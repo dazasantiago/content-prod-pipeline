@@ -9,7 +9,7 @@ Production/                          ← único repo git. Todas las skills y age
 ├─ .claude/skills/  .claude/agents/  ← el pipeline ejecutable
 ├─ WMF/                              ← esta documentación
 ├─ Planning/                         ← el CLI de investigación y los artefactos de Planning (mismo repo)
-│  ├─ code/topic-deep-research/      ← CLI de Python (results/<slug>/ = su salida; se versiona solo digest.md)
+│  ├─ code/topic-deep-research/      ← CLI de Python (results/<slug>/ = su salida, con `run.json`: qué entregó cada fuente; se versiona solo digest.md)
 │  └─ content/<slug>/                ← artefactos de Planning de un proyecto
 │     ├─ context.md                  ← lo que entendiste del tema y de lo investigado, con cifras verificadas
 │     ├─ schema.md                   ← ángulo + piezas aprobadas

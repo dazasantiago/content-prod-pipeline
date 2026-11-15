@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from collections import Counter, defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -21,6 +22,7 @@ def run(
     out_dir: Path = Path("results"),
     force_youtube: bool = False,
     web: bool = True,
+    sources: frozenset[str] | None = None,
 ) -> tuple[Path, TopicResult]:
     enrichers: list[Enricher] = [
         XEnricher(token=os.environ.get("X_BEARER_TOKEN", "")),
@@ -47,6 +49,7 @@ def run(
         discovered_sources=discovered,
         generated_at=datetime.now(UTC).isoformat(),
         signals_attempted=len(enriched),
+        run_report=build_run_report(topic_input.topic, enriched, discovered, sources),
     )
 
     out_path = write_topic_result(result, base=out_dir)
@@ -81,7 +84,61 @@ def run_topic(
         out_dir=out_dir,
         force_youtube=True,
         web="web" in chosen,
+        sources=chosen,
     )
+
+
+def build_run_report(
+    topic: str,
+    enriched: list[EnrichedSignal],
+    discovered: list[DiscoveredSource],
+    sources: frozenset[str] | None,
+) -> dict[str, object]:
+    """What each source actually delivered, so a silent failure shows up in `run.json`.
+
+    `ok` is content that reached the digest. A requested source with no signals at all (missing key,
+    exhausted quota, nothing found) is listed with zeros instead of being absent.
+    """
+    counts: dict[str, Counter[str]] = defaultdict(Counter)
+    problems: dict[str, Counter[str]] = defaultdict(Counter)
+    failed: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for e in enriched:
+        src = e.original.source.split("/")[0]
+        counts[src]["attempted"] += 1
+        counts[src][e.fetch_status] += 1
+        if e.fetch_status != "ok" and e.fetch_error:
+            problems[src][e.fetch_error.split(":")[0][:80]] += 1
+        if e.fetch_status != "ok":
+            failed[src].append(
+                {
+                    "id": e.original.source_id,
+                    "title": e.original.title[:80],
+                    "reason": (e.fetch_error or "unknown")[:120],
+                }
+            )
+    for src in sorted((sources or frozenset()) - {"web"}):
+        if src not in counts:
+            problems[src]["no signals discovered (missing key, exhausted quota or no results)"] += 1
+            counts[src]  # register the source with zero counts
+    by_source: dict[str, object] = {
+        src: {
+            "attempted": c["attempted"],
+            "ok": c["ok"],
+            "skipped": c["skipped"],
+            "error": c["error"],
+            "problems": dict(problems[src]),
+            "failed": failed[src][:20],
+        }
+        for src, c in sorted(counts.items())
+    }
+    return {
+        "topic": topic,
+        "generated_at": datetime.now(UTC).isoformat(),
+        "sources": sorted(sources) if sources is not None else None,
+        "signals_attempted": len(enriched),
+        "by_source": by_source,
+        "web_sources": len(discovered),
+    }
 
 
 def _enrich_signals(

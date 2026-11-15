@@ -11,9 +11,9 @@ skill: the child runs the CLI and then launches the `research-digest` subagent.
 | **Type** | automatic: it never talks to Santiago |
 | **Brief** | project slug and the topic string (plus `--sources youtube` for a concept video) |
 | **Reads** | nothing from the pipeline: just the topic string (and optional seed links) |
-| **Writes** | `results/<slug>/signals_enriched.json`, `discovered_sources.json`, and (via `research-digest`) `digest.md` |
+| **Writes** | `results/<slug>/signals_enriched.json`, `discovered_sources.json`, `run.json`, and (via `research-digest`) `digest.md` |
 | **Doesn't** | build the schema, judge the content or call any LLM API |
-| **Ends when** | `results/<slug>/digest.md` exists |
+| **Ends when** | `results/<slug>/digest.md` exists and `run.json` shows at least one `ok` for every requested source. If a requested source has `ok` 0, report `bloqueado` with its `problems` |
 
 The child's final report starts with `ETAPA deep-research · <slug> · <ok|bloqueado> · <path to digest.md>`.
 
@@ -131,6 +131,15 @@ Additional flag:
 | Tavily web | Existing `discover_sources()` | `TAVILY_API_KEY` |
 
 Any missing key makes that source silently skip; the others continue.
+
+### `run.json` — what each source delivered
+
+Every topic run writes `results/<slug>/run.json` and prints the same summary. Per source it counts
+`attempted`, `ok` (content that reached the digest), `skipped`, `error`, and groups the reasons under
+`problems` (e.g. `NoTranscriptFound`, `RequestBlocked`); `failed` lists up to 20 signals that did not
+make it (`id`, `title`, `reason`) so a video without transcript can be identified. A requested source that produced no signals at
+all (missing key, exhausted quota, nothing found) is listed with zeros instead of being absent, so a
+failing source can no longer pass unnoticed. A digest is only as good as the `run.json` behind it.
 
 ### YouTube specifics
 

@@ -127,6 +127,21 @@ IPO devolvió casi solo glosarios, pero esa corrida no tenía datos de YouTube (
 silencio; entrada anterior), así que no probaba nada contra esta vía. Prueba real con "what is a bond":
 5 señales, todas de YouTube, 0 fuentes descubiertas.
 
+### 🟢 La investigación se valida con `run.json`; una sin él no se reutiliza (2026-11-15)
+Santiago dijo que el research de YouTube "sigue fallando". No fallaba: YouTube ya funcionaba (corrida real:
+9 transcripciones). El research del IPO que se usaba era anterior al arreglo y tenía 0 señales de YouTube
+(solo HN y X; hallazgo de la entrada de YouTube), y el orquestador lo reutilizó ("ya existía un deep
+research previo, no se relanza"). Nadie comprobaba qué había entregado cada fuente, así que un fallo ya
+arreglado seguía pareciendo vigente y el digest se quedaba sin la sección de YouTube sin avisar.
+**Regla:** el CLI escribe `results/<slug>/run.json` con lo que entregó cada fuente; ① solo termina si
+muestra al menos un `ok` por cada fuente pedida (si no, queda `bloqueada` con el motivo), y el
+orquestador no reutiliza una investigación sin su `run.json` o con una fuente pedida en 0 (concept:
+`youtube` con `ok` > 0). Las anteriores al 2026-11-15 no lo tienen, así que se relanzan. Contrato:
+[STAGE.md](../Planning/code/topic-deep-research/STAGE.md); cómo leerlo: [RUNBOOK](RUNBOOK.md).
+**Evidencia:** se relanzó el research del IPO solo con YouTube (regla de concept): 9 videos con
+transcripción, 3 sin transcripción en inglés ni español, y el digest se regeneró con la sección "Cómo lo
+cuentan otros creadores (YouTube)"; el anterior sigue en el historial de git.
+
 ### 🟢 Entender el tema es una etapa propia, `contextualizer`, no del schema (2026-11-15)
 Santiago: mientras hacía el video del IPO sentía que le daba a `schema-builder` funciones que no le
 pertenecen, al pedirle que le explicara todo lo que es un IPO; y lo mismo pasará después de una
@@ -148,6 +163,20 @@ independientes) y se anota `dato · fuente · fecha de consulta`; lo que no se p
 **Consecuencia:** el orquestador la lanza según el formato; si Santiago necesita que le expliquen algo en
 cualquier sesión, la lanza o relanza.
 **Riesgo abierto:** [R-10](RISKS-AND-BACKLOG.md).
+
+### 🟡 ③ conversa un hilo a la vez, con diagnóstico previo (2026-11-15)
+Antes ③ tendía a explicar el digest de golpe y a resolver todos los puntos a la vez: Santiago acababa con
+~10 preguntas por turno y varios hilos simultáneos difíciles de seguir. Una explicación en bloque no es
+una conversación natural y lo obliga a llevar la cuenta de cada respuesta. Ahora **③ lleva el hilo y
+Santiago no gestiona la conversación**: primero un diagnóstico de qué sabe y qué no, y luego un diálogo
+de una idea por turno. Las reglas exactas (fases, cola de hilos, excepción de `news`) viven en su
+[SKILL](../.claude/skills/contextualizer/SKILL.md), Fases 1-2.
+**Riesgo:** la regla "no avanzar hasta confirmar comprensión" puede ser lenta en conceptos fáciles; se
+dejó a criterio del contextualizer (exige respuesta solo en conceptos delicados).
+**Qué mirar:** en el primer video que use ③, cuántos turnos gasta en conceptos que Santiago ya dominaba y
+si él siente que se le frena.
+**Alternativa si falla:** comprobar solo los conceptos que el diagnóstico marcó como imprecisos o
+desconocidos, o permitir agrupar 2-3 conceptos fáciles por turno.
 
 ### 🟢 Publicar queda fuera de alcance
 El pipeline termina en "pieza editada, Notion en `Edited`"; subir a las plataformas es manual. Decisión
@@ -347,6 +376,7 @@ más adelante. `edit-composer` invoca `embedded-captions` cuando la coreografía
 |---|---|---|---|
 | Sistema | Orquestación con sesiones anidadas | Función conocida por prensa; reportes truncados | Chat nuevo por etapa a mano |
 | Sistema | Piezas voice-only | Corte de audio puro no probado | Revisión manual, o pantalla negra |
+| 3 | ③ un hilo a la vez, confirmar antes de avanzar | Lento en conceptos fáciles | Comprobar solo lo impreciso o desconocido, o agrupar conceptos fáciles |
 | Sistema | Estilo solo en edición (Brand Kit en blanco) | Resultado monótono | Estilo en `visual-script`, o refinar HyperFrames y el Brand Kit |
 | 1 | Stock antes que generar | Match mediocre por regla rígida | Subir la barra, o generar `IMG` por default |
 | 2 | Palabras "discarded"/"final" | La transcripción no aísla la palabra | Palabra menos común, o nombrar archivos |

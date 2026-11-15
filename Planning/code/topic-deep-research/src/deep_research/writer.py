@@ -16,6 +16,8 @@ def write_topic_result(result: object, base: Path = Path("results")) -> Path:
 
     _write_json(out_dir / "signals_enriched.json", [dataclasses.asdict(s) for s in result.enriched_signals])
     _write_json(out_dir / "discovered_sources.json", [dataclasses.asdict(s) for s in result.discovered_sources])
+    if result.run_report is not None:
+        _write_json(out_dir / "run.json", result.run_report)
 
     return out_dir
 

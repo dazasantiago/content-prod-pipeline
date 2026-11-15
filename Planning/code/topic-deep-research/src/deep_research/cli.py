@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from typing import Any
 
 import typer
 from dotenv import load_dotenv
@@ -13,6 +14,19 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
 app = typer.Typer(name="deep-research", add_completion=False)
+
+
+def report_lines(report: dict[str, Any] | None) -> list[str]:
+    """One line per source: what reached the digest and what went wrong."""
+    lines: list[str] = []
+    for src, row in (report or {}).get("by_source", {}).items():
+        detail = ", ".join(f"{k} x{v}" for k, v in row["problems"].items())
+        mark = "  !!" if row["ok"] == 0 else "    "
+        lines.append(
+            f"{mark}{src}: {row['ok']} ok, {row['skipped']} skipped, {row['error']} error"
+            + (f"  [{detail}]" if detail else "")
+        )
+    return lines
 
 
 def parse_sources(raw: str) -> frozenset[str]:
@@ -97,3 +111,6 @@ def research(
         f"  signals_enriched.json    ({kept} with content, {discarded} discarded empty)"
     )
     typer.echo(f"  discovered_sources.json  ({len(result.discovered_sources)} sources)")
+    typer.echo("  run.json — what each source delivered:")
+    for line in report_lines(result.run_report):
+        typer.echo(line)
