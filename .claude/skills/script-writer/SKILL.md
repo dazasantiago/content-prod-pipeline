@@ -6,7 +6,7 @@ description: >
   by scene, because a video is not a voiceover with pictures added later. Launched by `video-orchestrator` as a child session; never invoked loose. Santiago writes;
   Claude asks, shapes, and advises — there is never a pre-written draft to react to. The dialogue
   happens in English. The video targets an English-speaking audience; there is no Spanish version for now.
-  Requires an approved `schema.md`; the research digest is used when it exists but is not required.
+  Requires an approved `schema.md`; `context.md` and the research digest are used when they exist but are not required.
 ---
 
 # Script Writer — the document Santiago records from
@@ -37,7 +37,7 @@ The orchestrator (`video-orchestrator`) launches this skill as a **child session
 |---|---|
 | **Type** | conversational: Santiago joins this session and talks to you directly (in English) |
 | **Brief** | project slug, line, piece(s) to work on |
-| **Reads** | `Planning/content/<slug>/schema.md` (required, binding); `Planning/code/topic-deep-research/results/<slug>/digest.md` if it exists; `references/craft.md` |
+| **Reads** | `Planning/content/<slug>/schema.md` (required, binding); `Planning/content/<slug>/context.md` and `Planning/code/topic-deep-research/results/<slug>/digest.md` if they exist; `references/craft.md` |
 | **Writes** | `Planning/content/<slug>/<piece>/script.en.md` (with `**Delivery:**`) |
 | **Doesn't** | change the schema (a divergence is logged under "Diverged from schema"); specify choreography or style; write a Spanish version |
 | **Ends when** | Santiago explicitly approved each piece's script. The orchestrator never approves for him |
@@ -152,8 +152,9 @@ schema-builder → [YOU: script-writer] → visual-script → Santiago records
 Planning/content/<slug>/schema.md   <piece>/script.en.md          <piece>/visuals.md
 ```
 
-Inputs: `Planning/content/<slug>/schema.md` — **binding**. And
-`Planning/code/topic-deep-research/results/<slug>/digest.md` — **optional**, read it when it's there.
+Inputs: `Planning/content/<slug>/schema.md` — **binding**. And, **optional**, read them when they're there:
+`Planning/content/<slug>/context.md` (the verified facts) and
+`Planning/code/topic-deep-research/results/<slug>/digest.md`.
 
 Outputs: `Planning/content/<slug>/<piece>/script.en.md`, one per piece.
 
@@ -167,9 +168,11 @@ Outputs: `Planning/content/<slug>/<piece>/script.en.md`, one per piece.
    report `bloqueado`.
 2. Read `Planning/content/<slug>/schema.md` in full. **Required** — if it's missing, stop: "There's no
    approved schema for that topic yet. Run `schema-builder` first."
-3. Read `Planning/code/topic-deep-research/results/<slug>/digest.md` **if it exists**. If it doesn't, that's
-   fine — the topic was planned without research. Say so once, briefly, and move on. Santiago and
-   the schema are your factual universe in that case.
+3. Read `Planning/content/<slug>/context.md` **if it exists**: the facts Santiago understood and that were
+   verified (figures with source and date). Then read
+   `Planning/code/topic-deep-research/results/<slug>/digest.md` **if it exists**. If neither exists, that's
+   fine — the topic was planned without them. Say so once, briefly, and move on. Santiago and the
+   schema are your factual universe in that case. A figure that is in neither file is `[UNVERIFIED]`.
 4. Read [`references/craft.md`](references/craft.md) — the engagement craft you'll be coaching with.
 5. Note which piece folders already hold a `script.en.md`. For each, show its status and how far it
    got, then ask whether to **continue** or **start over**. Never overwrite without that answer.
@@ -354,7 +357,7 @@ looks or moves.
 - The topic slug and piece folder slugs come from `schema.md` — never invent new ones.
 - Each piece's `script.en.md` is written incrementally, scene by scene, not dumped at the end.
 - Source references keep the `source:source_id` / `discovered:<url>` format from the digest.
-- Never invent a fact. The digest, the schema, and Santiago are the only sources.
+- Never invent a fact. `context.md`, the digest, the schema, and Santiago are the only sources.
 - No Notion writes in this stage.
 
 ## Known limitations

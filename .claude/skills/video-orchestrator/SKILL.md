@@ -23,7 +23,7 @@ etapa creativa.
 
 Las etapas **no se leen entre sí**: se pasan archivos, no conversación. Cada una es una sesión con
 entradas, salidas y límites definidos en su *Contrato de la etapa* (al inicio de su skill). Las
-conversacionales (③ ④ ⑤) son sesiones con las que Santiago habla directo; las automáticas (① ⑥ ⑦ ⑧)
+conversacionales (③ ④ ⑤ ⑥) son sesiones con las que Santiago habla directo; las automáticas (① ⑦ ⑧ ⑨)
 corren solas y solo lo llaman cuando necesitan una decisión suya.
 
 ## Reglas
@@ -51,7 +51,7 @@ corren solas y solo lo llaman cuando necesitan una decisión suya.
    canal), el **formato** (concept / case / news / otro; ver `WMF/FORMATS.md`), la **entrega** por pieza
    (`on-camera` o `voice-only`) y qué etapas aplican. Lo que no haya dicho va por defecto: línea
    `Personal Content`, entrega `on-camera`, investigación según el formato (ver abajo; sin formato, sin
-   investigación), flujo estándar de ⑥ a ⑧; si trae el guion hecho, las etapas de Planning se omiten.
+   investigación ni contexto), flujo estándar de ⑦ a ⑨; si trae el guion hecho, las etapas de Planning se omiten.
    Registra lo asumido en el estado.
 2. El **slug** es el del tema de Planning, exacto (nunca un título "bonito"). En Other Content, el que
    acuerden.
@@ -81,6 +81,7 @@ cierras o retomas, lo lees y sigues.
 | Etapa | Sesión hija | Estado | Artefacto |
 |---|---|---|---|
 | deep-research | local_… | omitida / en curso / hecha | Planning/code/topic-deep-research/results/<slug>/digest.md |
+| contextualizer | local_… | omitida / en curso / hecha | Planning/content/<slug>/context.md |
 | schema-builder | local_… | … | Planning/content/<slug>/schema.md |
 | script-writer | … | … | Planning/content/<slug>/<pieza>/script.en.md |
 | visual-script | … | … | Planning/content/<slug>/<pieza>/visuals.md |
@@ -106,12 +107,13 @@ la pieza si aplica, las rutas de entrada y qué skill invocar. Nunca copies esta
 | Etapa | Tipo | Cómo se invoca en la hija | La hija termina cuando |
 |---|---|---|---|
 | deep-research ① *(según el formato)* | automática | CLI `uv run deep-research --topic "<tema>"` desde `Planning/code/topic-deep-research`, con `--sources youtube` si el formato es concept; al terminar lanza el subagente `research-digest` | existe `digest.md` |
-| schema-builder ③ | **conversacional** | skill `schema-builder` | Santiago aprobó los esquemas (Topic + Pieces en Notion) |
-| script-writer ④ | **conversacional**, en inglés | skill `script-writer` | script aprobado por pieza (`script.en.md` sellado) |
-| visual-script ⑤ | **conversacional** | skill `visual-script`; al aprobar lanza el subagente `visuals-indexer` | `visuals.md` aprobado y `resources.md` + `pre-capture-guide.md` generados |
-| resource-fetcher ⑥ | automática (con un gate de video) | skill `resource-fetcher` | `manifest.json` completo y aprobado |
-| take-organizer ⑦ | automática (aclara ambigüedades con Santiago) | skill `take-organizer` | `camera.mp4`/`voice.wav` + `timecodes.json` de **todas** las piezas |
-| edit-composer ⑧ | automática | skill `edit-composer`; lanza el subagente `edit-reviewer` | piezas en `Final pieces/` y Notion en `Edited` |
+| contextualizer ③ *(según el formato)* | **conversacional** | skill `contextualizer` | Santiago confirmó que entendió y `context.md` quedó sellado |
+| schema-builder ④ | **conversacional** | skill `schema-builder` | Santiago aprobó los esquemas (Topic + Pieces en Notion) |
+| script-writer ⑤ | **conversacional**, en inglés | skill `script-writer` | script aprobado por pieza (`script.en.md` sellado) |
+| visual-script ⑥ | **conversacional** | skill `visual-script`; al aprobar lanza el subagente `visuals-indexer` | `visuals.md` aprobado y `resources.md` + `pre-capture-guide.md` generados |
+| resource-fetcher ⑦ | automática (con un gate de video) | skill `resource-fetcher` | `manifest.json` completo y aprobado |
+| take-organizer ⑧ | automática (aclara ambigüedades con Santiago) | skill `take-organizer` | `camera.mp4`/`voice.wav` + `timecodes.json` de **todas** las piezas |
+| edit-composer ⑨ | automática | skill `edit-composer`; lanza el subagente `edit-reviewer` | piezas en `Final pieces/` y Notion en `Edited` |
 
 **Subagentes** (`research-digest`, `visuals-indexer`, `edit-reviewer`): los lanza la hija de su etapa.
 Son tareas cortas que devuelven un resultado; Santiago no entra a ellas.
@@ -134,7 +136,7 @@ estado, averigua el estado leyendo el archivo; no asumas.
 
 **Pausa humana solo donde Santiago decide:**
 
-- **Creativas (schema → script → visuales):** lanza la hija, dile "abre la sesión *<título>* para
+- **Conversacionales (contexto → schema → script → visuales):** lanza la hija, dile "abre la sesión *<título>* para
   trabajar el <etapa>" con el enlace, y **detente**. No lances la siguiente hasta que la hija reporte
   `ok` con aprobación explícita de él. Aprobar es de Santiago, nunca tuyo.
 - **Automáticas:** cuando la etapa previa queda `hecha` (verificada), lanza la siguiente sin preguntar y
@@ -145,7 +147,10 @@ Orden y condiciones:
 1. **deep-research** según el formato (`WMF/FORMATS.md`): **concept** → investigación ligera, solo YouTube
    (`--sources youtube`), para ver cómo otros estructuran el concepto; **case** o **news** → completa
    (todas las fuentes); otro formato o sin formato → `omitida`, salvo que Santiago la pida.
-2. **schema-builder → script-writer → visual-script**, secuenciales.
+2. **contextualizer → schema-builder → script-writer → visual-script**, secuenciales. El contextualizer corre
+   según el formato (`WMF/FORMATS.md`): **concept** y **case** → sí; **news** → sí, en corto; otro formato
+   o sin formato → `omitida`, salvo que Santiago lo pida. Si corrió la investigación (①②), el
+   contextualizer parte de su `digest.md`.
 3. Con `visual-script` en `hecha`: lanza `resource-fetcher` **en paralelo** con la grabación y dile que
    ya puede grabar con `pre-capture-guide.md`.
 4. **Grabación:** es de Santiago. Queda `pendiente` hasta que diga "ya grabé"; entonces lanza
@@ -197,6 +202,10 @@ Si Santiago te pide rehacer una etapa ("rehaz el guion de la pieza X"), relanza 
 un brief que diga que es una **revisión** y qué artefactos ya existen. Marca `desactualizada` toda
 etapa posterior que lea lo que cambia (p. ej. al rehacer el guion: `visual-script`, `resource-fetcher`,
 `take-organizer` y `edit-composer`) y dile cuáles son; no las relances tú sola.
+
+Si Santiago necesita que le expliquen algo del tema o de lo investigado (en cualquier sesión, incluida
+la de schema-builder), lanza o relanza el contextualizer con un brief de revisión: no lo expliques tú ni
+se lo pidas a otra etapa.
 
 ## Cuando termina el proyecto
 

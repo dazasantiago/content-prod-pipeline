@@ -18,7 +18,7 @@ tools: Read, Write, Glob, Bash
 en Planning deliberadamente no decide. Cuando termina esta etapa, el video está listo — la única
 conversación que le sigue es de detalle, no de huecos por llenar.
 
-**Contexto:** `../../../WMF/DECISIONS.md` (sección Etapa 3) tiene el razonamiento de cada decisión de acá y
+**Contexto:** `../../../WMF/DECISIONS.md` (sección `edit-composer`) tiene el razonamiento de cada decisión de acá y
 `../../../WMF/ARTIFACTS.md` el formato de carpetas y de los manifiestos. El **Brand Kit** (`<Personal Content|Other Content>/Brand Kit/`) es el
 spec de estilo del canal — léelo una vez, en la Fase 1, y no lo vuelvas a resolver durante el resto de
 la etapa. El estilo vive ahí, no en esta skill.
@@ -27,7 +27,7 @@ la etapa. El estilo vive ahí, no en esta skill.
 
 ## Contrato de la etapa
 
-Esta skill la lanza `video-orchestrator` como **sesión hija** cuando ⑥ y ⑦ ya terminaron; no se invoca suelta.
+Esta skill la lanza `video-orchestrator` como **sesión hija** cuando ⑦ y ⑧ ya terminaron; no se invoca suelta.
 
 | | |
 |---|---|
@@ -144,7 +144,7 @@ Para cada visual de `visuals.md` que **no** esté marcado como reusado de otra p
 1. **Resuelve tiempos.** Inicio de escena desde `timecodes.json`; si la coreografía nombra
    sub-frases de entrada y/o de **salida** (pueden ser dos anclas distintas, no solo una), usa esos
    timestamps exactos.
-2. **Resuelve recursos.** Lee los IDs (`IMG-n`/`SFX-n`/`VID-n`) del manifiesto de la etapa 1 — nunca
+2. **Resuelve recursos.** Lee los IDs (`IMG-n`/`SFX-n`/`VID-n`) del manifiesto de `resource-fetcher` — nunca
    busques de nuevo. Un `GFX` normalmente no tiene recursos; si muestra cifras, dibuja
    **exactamente** lo que dice su `**Datos:**` en `visuals.md` (cifra, unidad, fecha): nunca redondees,
    recalcules ni completes un número, y si falta o está en duda, repórtalo en vez de inventarlo.

@@ -1,18 +1,18 @@
 ---
 name: schema-builder
 description: >
-  Dialoga con Santiago para decidir, a partir del digest del tema (si hay investigación), QUÉ piezas de
+  Dialoga con Santiago para decidir, a partir del contexto y la investigación del tema (si existen), QUÉ piezas de
   contenido van a salir (long-form, shorts, texto — no un set fijo por red social) y construye el
   esquema de cada una: ángulo, estructura, ideas clave, fuentes, hook y cierre. La lanza `video-orchestrator` como sesión hija; no se invoca suelta. Aprobar los esquemas es aprobar qué se lanza: al confirmar, crea
   el Topic y sus Pieces en Notion directo en `In Production`. El resultado es Markdown, NO un guion
   línea por línea (eso es la etapa siguiente, `script-writer`) ni un artefacto JSON para otra etapa.
-  Lee `digest.md` si existe; si no, Santiago es la fuente.
+  Lee `context.md` y `digest.md` si existen; si no, Santiago es la fuente.
 ---
 
 # Schema Builder — Etapa de esquema y decisión de piezas del pipeline de contenido
 
-Eres el copiloto editorial de Santiago. Tomas el `digest.md` que `research-digest` ya condensó del
-deep research de un tema, dialogas con Santiago para decidir **qué piezas de contenido van a salir**
+Eres el copiloto editorial de Santiago. Partes de lo que él ya entendió del tema (`context.md`, etapa ③) y de
+lo que `research-digest` condensó de la investigación (`digest.md`), si existen; dialogas con Santiago para decidir **qué piezas de contenido van a salir**
 de ese tema (no asumas un set fijo por red social), y construyes el esquema de cada una: ángulo,
 hook, estructura, fuentes, contrapuntos y cierre. Esto **no** es un guion línea por línea — es la
 guía que Santiago lee mientras graba o escribe.
@@ -31,9 +31,9 @@ Esta skill la lanza `video-orchestrator` como **sesión hija**; no se invoca sue
 |---|---|
 | **Tipo** | conversacional: Santiago entra a esta sesión y habla contigo directo |
 | **Brief** | slug del proyecto, línea, formato |
-| **Lee** | `Planning/code/topic-deep-research/results/<slug>/digest.md` si existe; si no, Santiago es la fuente |
+| **Lee** | `Planning/content/<slug>/context.md` si existe (lo que Santiago ya entendió del tema y de lo investigado); `Planning/code/topic-deep-research/results/<slug>/digest.md` si existe; si no hay ninguno, Santiago es la fuente |
 | **Escribe** | `Planning/content/<slug>/schema.md`; Topic y Pieces en Notion (`In Production`) |
-| **No hace** | investigar (eso es ①; si Santiago quiere investigación, se lo pide al orquestador); escribir líneas del guion; decidir visuales |
+| **No hace** | investigar (eso es ①); **explicar el tema o lo investigado** (eso es ③ `contextualizer`: si Santiago lo pide, se lo pide al orquestador); escribir líneas del guion; decidir visuales |
 | **Termina cuando** | Santiago aprobó los esquemas y se crearon Topic + Pieces. El orquestador no aprueba por él |
 
 Reglas de toda sesión hija:
@@ -70,12 +70,13 @@ opciones.
 ## Posición en el pipeline
 
 ```
-topic-deep-research → research-digest → [TÚ: schema-builder] → script-writer → (grabación)
-results/<slug>/          digest.md          dialogas + estructurás    guion palabra por palabra
+topic-deep-research → research-digest → contextualizer → [TÚ: schema-builder] → script-writer → (grabación)
+results/<slug>/          digest.md          context.md         dialogas + estructurás    guion palabra por palabra
                                             Planning/content/<slug>/schema.md     + Notion (Topic + Pieces)
 ```
 
-Entrada principal: `Planning/code/topic-deep-research/results/<slug>/digest.md` del tema elegido (nunca los
+Entradas: `Planning/content/<slug>/context.md` (lo que Santiago ya entendió y verificó) y
+`Planning/code/topic-deep-research/results/<slug>/digest.md` del tema elegido, las que existan (nunca los
 JSON crudos directamente — eso ya lo procesó `research-digest`).
 Salida: `Planning/content/<slug>/schema.md` — un único documento Markdown, legible por
 Santiago, no un JSON estructurado — más el Topic y sus Pieces creados en Notion.
@@ -88,14 +89,20 @@ Santiago, no un JSON estructurado — más el Topic y sus Pieces creados en Noti
 
 1. El brief trae el **slug** del proyecto: úsalo tal cual. Si falta, no preguntes cuál tema: reporta
    `bloqueado`.
-2. Busca `digest.md` para ese `<slug>`. **La investigación es opcional** y no es tuya: dos caminos válidos.
-   - **Con digest** → sigue a la Fase 1 normal.
-   - **Sin digest** → no te detengas ni investigues. Dile a Santiago que no hay investigación y que el
-     esquema se arma con lo que él sabe: es un camino de primera clase, no un plan B (decide temas que
-     ya domina). Él es la fuente; puede pegar links o datos en el chat y esos cuentan. Si prefiere
-     investigar primero, que se lo pida al orquestador (etapa ①) y se relance esta etapa.
-   - En cualquier caso: no inventes contenido fuera del digest, de lo que Santiago aporte en el
-     diálogo y de lo que él pegue explícitamente.
+2. Busca `context.md` y `digest.md` para ese `<slug>`. **Ni el contexto ni la investigación son tuyos**; lee
+   lo que exista:
+   - **Con `context.md`** → es lo que Santiago ya entendió del tema y de lo investigado (qué es, cómo
+     funciona, vocabulario, cifras verificadas). Es tu base de hechos.
+   - **Con digest** → léelo también (Fase 1).
+   - **Sin ninguno** → no te detengas ni investigues ni expliques. Dile a Santiago que no hay contexto ni
+     investigación y que el esquema se arma con lo que él sabe: es un camino de primera clase, no un
+     plan B (decide temas que ya domina). Si prefiere entender o investigar primero, que se lo pida al
+     orquestador (etapas ① y ③) y se relance esta etapa.
+   - **No expliques el tema ni lo investigado.** Si Santiago te pide que le expliques qué es algo o qué
+     se encontró, dile que eso es de ③ (`contextualizer`) y que se lo pida al orquestador; mientras
+     tanto, sigue con la estructura.
+   - En cualquier caso: no inventes contenido fuera de `context.md`, del digest, de lo que Santiago
+     aporte en el diálogo y de lo que él pegue explícitamente.
 3. Si ya existe `Planning/content/<slug>/schema.md`, avisa que ya hay un plan para ese
    tema, muestra qué piezas tiene aprobadas y el ángulo central, y pregunta si quiere **revisarlo**
    (lo carga como punto de partida del diálogo) o **rehacerlo desde cero**. No lo sobreescribas sin
@@ -105,6 +112,10 @@ Santiago, no un JSON estructurado — más el Topic y sus Pieces creados en Noti
 
 **Con digest:** leelo completo — ya viene agrupado por sub-ángulo, con contradicciones, huecos y una
 lectura de profundidad del tema. No lo reproceses ni lo vuelvas a armar; es tu insumo, no tu tarea.
+
+**Con `context.md`:** ya se explicó y se entendió en ③. No repitas el resumen de abajo ni expliques el tema:
+di en una línea qué hay (`📋 "<tema>" — contexto aprobado el <fecha>; <N> sub-ángulos en el digest.`) y
+pasa a la Fase 2.
 
 Presenta un resumen breve **antes** de dialogar (puedes citar directamente del digest, no hace falta
 reformular todo):

@@ -11,6 +11,7 @@ Production/                          ← único repo git. Todas las skills y age
 ├─ Planning/                         ← el CLI de investigación y los artefactos de Planning (mismo repo)
 │  ├─ code/topic-deep-research/      ← CLI de Python (results/<slug>/ = su salida; se versiona solo digest.md)
 │  └─ content/<slug>/                ← artefactos de Planning de un proyecto
+│     ├─ context.md                  ← lo que entendiste del tema y de lo investigado, con cifras verificadas
 │     ├─ schema.md                   ← ángulo + piezas aprobadas
 │     ├─ resources.md                ← qué conseguir, sin duplicados entre piezas
 │     ├─ pre-capture-guide.md        ← qué preparar antes de grabar
@@ -67,6 +68,7 @@ y los Brand Kit), el CLI de investigación (`Planning/code/topic-deep-research`:
 
 | Archivo | Cómo marca "aprobado" |
 |---|---|
+| `context.md` | `**Estado:** aprobado <fecha>` en el encabezado (`en progreso` mientras se trabaja); cada `[UNVERIFIED]` se verifica o Santiago decide dejarlo fuera, y queda anotado |
 | `schema.md` | lista de piezas aprobadas al inicio; al aprobar se crean Topic y Pieces en Notion (`In Production`) |
 | `script.en.md` | estado en el encabezado; sin `[UNVERIFIED]` pendientes |
 | `visuals.md` | `**Estado:** aprobado <fecha>` |
@@ -78,8 +80,13 @@ Cabeceras que otras etapas leen: en `script.en.md`, `**Delivery:** on-camera | v
 `**Research:**` (`ninguno` si no hubo). `timecodes.json` lleva `"media": "audio"` si la pieza es
 voice-only.
 
+`context.md` es el universo de hechos de ④ y ⑤ (secciones y reglas: [SKILL](../.claude/skills/contextualizer/SKILL.md)):
+toda cifra, fecha, nombre propio, norma o plazo va como `dato · fuente · fecha de consulta` (fuente
+primaria, o dos independientes); lo no verificable queda `[UNVERIFIED]`, visible. Lo que no está en
+`context.md` ni en `digest.md` es `[UNVERIFIED]` para ⑤.
+
 Campo de `visuals.md` que otras etapas leen: `**Datos:** <cifra> · <fuente> · <fecha>` en todo `GFX`
-que muestre números. Lo escribe ⑤ con las fuentes que ya declara el guion; ⑧ dibuja exactamente eso y
+que muestre números. Lo escribe ⑥ con las fuentes que ya declara el guion; ⑨ dibuja exactamente eso y
 `edit-reviewer` lo contrasta. Si falta una cifra va a `## Pendientes`. Por qué:
 [DECISIONS](DECISIONS.md).
 

@@ -6,8 +6,8 @@ description: >
   `discovered_sources.json` del tema recién investigado y los condensa en un único `digest.md`
   curado: agrupado por sub-ángulo, con contradicciones/tensiones y huecos señalados, e ignorando
   ruido (`fetch_status` en error o skip). También estima si el tema tiene suficiente profundidad
-  para un video largo o si conviene una pieza más chica. Esto es lo único que `schema-builder`
-  lee después — no debe procesar los JSON crudos directamente.
+  para un video largo o si conviene una pieza más chica. Esto es lo que leen después
+  `contextualizer` y `schema-builder` — no deben procesar los JSON crudos directamente.
 tools: Read, Write, Glob
 ---
 

@@ -80,7 +80,7 @@ declarado y `edit-reviewer` trata un número no declarado o distinto como punto 
 **Consecuencia:** un `GFX` casi no genera trabajo en `resources.md` ni en `resource-fetcher`
 (`visuals-indexer` lo excluye de las listas). Con esto, los visuales de datos no necesitan un tag propio:
 no se crea `DATA-n`.
-**Costo:** había que tocar tres etapas (④ ⑤ ⑧) y los `visuals.md` ya escritos; por eso convino decidirlo
+**Costo:** había que tocar tres etapas (⑤ ⑥ ⑨) y los `visuals.md` ya escritos; por eso convino decidirlo
 antes del primer video.
 
 ### 🟢 Canal solo en inglés; traducción parada (2026-10-30)
@@ -127,6 +127,28 @@ IPO devolvió casi solo glosarios, pero esa corrida no tenía datos de YouTube (
 silencio; entrada anterior), así que no probaba nada contra esta vía. Prueba real con "what is a bond":
 5 señales, todas de YouTube, 0 fuentes descubiertas.
 
+### 🟢 Entender el tema es una etapa propia, `contextualizer`, no del schema (2026-11-15)
+Santiago: mientras hacía el video del IPO sentía que le daba a `schema-builder` funciones que no le
+pertenecen, al pedirle que le explicara todo lo que es un IPO; y lo mismo pasará después de una
+investigación, cuando tenga que pedirle que le explique lo encontrado. Por eso nace ③ `contextualizer`,
+entre ② y ④, **conversacional**: Claude (a) le explica el tema (qué es, cómo funciona, actores,
+vocabulario) y (b) le explica lo que encontró la investigación (`digest.md`) en lugar de resumirlo otra
+vez, y resuelve sus preguntas hasta que Santiago dice que ya entendió y `context.md` queda sellado. Qué
+corre en cada formato: [FORMATS](FORMATS.md). Qué produce: [ARTIFACTS](ARTIFACTS.md).
+
+**Por qué el schema no es el lugar:** `schema-builder` decide qué piezas salen y con qué ángulo; entender
+el tema es un paso previo, no parte de esa decisión. Son roles distintos: ③ explica y critica la
+comprensión (corrige sin que lo pidas lo impreciso o falso; mecanismos sí, consejos financieros
+personalizados no) y **no propone** ángulos, ganchos, estructura ni piezas; `schema-builder` critica la
+estructura. Ahora `schema-builder` lee `context.md` (y el digest) y no explica: si Santiago se lo pide, lo
+remite al orquestador para lanzar ③. `script-writer` toma `context.md` como universo de hechos.
+**Regla de cifras:** toda cifra, fecha, nombre propio, norma o plazo se verifica con fuente primaria (o dos
+independientes) y se anota `dato · fuente · fecha de consulta`; lo que no se pueda verificar queda
+`[UNVERIFIED]`, visible; si las fuentes se contradicen, se presentan las dos.
+**Consecuencia:** el orquestador la lanza según el formato; si Santiago necesita que le expliquen algo en
+cualquier sesión, la lanza o relanza.
+**Riesgo abierto:** [R-10](RISKS-AND-BACKLOG.md).
+
 ### 🟢 Publicar queda fuera de alcance
 El pipeline termina en "pieza editada, Notion en `Edited`"; subir a las plataformas es manual. Decisión
 explícita, anotada para no reabrirla por accidente.
@@ -147,8 +169,8 @@ solas al verificarse la anterior; los subagentes siguen siendo subagentes. El di
 **Regla (2026-11-09): todo nace en el orquestador, con un contrato por etapa.** `video-orchestrator` es
 la única entrada del pipeline: las skills de etapa ya no se invocan sueltas en un chat, y rehacer una
 etapa también pasa por él (relanza la hija como revisión y marca `desactualizada`, estado nuevo de
-`PIPELINE-STATE.md`, las etapas posteriores que leen lo que cambió). Las conversacionales (③ ④ ⑤) son
-hijas con las que Santiago habla directo; las automáticas (① ⑥ ⑦ ⑧) corren solas y lo llaman solo para
+`PIPELINE-STATE.md`, las etapas posteriores que leen lo que cambió). Las conversacionales (③ ④ ⑤ ⑥) son
+hijas con las que Santiago habla directo; las automáticas (① ⑦ ⑧ ⑨) corren solas y lo llaman solo para
 una decisión suya (gates en [WORKFLOW](WORKFLOW.md)). Cada skill de etapa abre con un *Contrato de la
 etapa* y las reglas comunes de toda sesión hija. Consecuencia: `schema-builder` ya no investiga ni
 invoca `research-digest`; la investigación es solo la etapa ①, y si Santiago la quiere se la pide al
@@ -192,7 +214,7 @@ el Brand Kit (mejores prompts, plantillas más variadas, dirección por proyecto
 
 ---
 
-## Etapa 1 — `resource-fetcher`
+## `resource-fetcher` (⑦)
 
 ### 🟡 Resolver (stock) antes que generar (IA), para imagen, video y SFX
 El stock es búsqueda + descarga; generar se factura por llamada y el video generado por segundo de
@@ -219,7 +241,7 @@ posterior.
 
 ---
 
-## Etapa 2 — `take-organizer`
+## `take-organizer` (⑧)
 
 ### 🟡 Palabras de control por voz: "discarded" / "final"
 Convierte la selección de tomas de "el agente adivina cuál es mejor" (juicio de Santiago, inaceptable)
@@ -265,7 +287,7 @@ debió tener transición.
 
 ---
 
-## Etapa 3 — `edit-composer`
+## `edit-composer` (⑨)
 
 ### 🟢 Un proyecto HyperFrames por tema; long-form siempre primero; sin `shared/`
 El long-form produce el material que las derivadas reusan, así que existe antes. Un proyecto por pieza

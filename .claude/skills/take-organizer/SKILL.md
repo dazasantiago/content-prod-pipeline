@@ -16,7 +16,7 @@ Segunda etapa. La más algorítmica de las tres — casi todo acá es transforma
 sobre una transcripción, no juicio creativo. Los únicos puntos donde se pregunta a Santiago están
 marcados explícitamente abajo; todo lo demás se resuelve solo.
 
-**Contexto:** `../../../WMF/DECISIONS.md` (sección Etapa 2) tiene el razonamiento completo, incluida la
+**Contexto:** `../../../WMF/DECISIONS.md` (sección `take-organizer`) tiene el razonamiento completo, incluida la
 nota de por qué no hace falta sincronizar cámara y screen por separado (Santiago graba con OBS, ya
 vienen compuestos). El formato de `timecodes.json` está en `../../../WMF/ARTIFACTS.md`.
 

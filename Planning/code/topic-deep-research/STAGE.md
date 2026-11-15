@@ -31,8 +31,8 @@ downstream stage.
 **Downstream consumer:** as soon as this CLI finishes for a topic, Claude always invokes the
 `research-digest` subagent (`.claude/agents/research-digest.md`, en la raíz de `Production/`) before doing anything else with
 that topic — it reads `signals_enriched.json` + `discovered_sources.json` and writes a curated
-`digest.md` into the same `results/<slug>/` folder. The `schema-builder` stage then reads only
-`digest.md`, never the raw JSON directly, to build the video/pieces schema (skill
+`digest.md` into the same `results/<slug>/` folder. The `contextualizer` stage then walks Santiago through it, and `schema-builder` reads only
+`digest.md` (and `context.md`), never the raw JSON directly, to build the video/pieces schema (skill
 `schema-builder`, `.claude/skills/schema-builder/SKILL.md`).
 
 ---

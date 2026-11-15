@@ -37,7 +37,7 @@ Esta skill la lanza `video-orchestrator` como **sesión hija**; no se invoca sue
 | **Brief** | slug del proyecto, línea, piezas |
 | **Lee** | `Planning/content/<slug>/<pieza>/script.en.md` aprobado de cada pieza; `schema.md` |
 | **Escribe** | `Planning/content/<slug>/<pieza>/visuals.md`; y, vía el subagente `visuals-indexer`, `resources.md` y `pre-capture-guide.md` |
-| **No hace** | decidir estilo (eso es de edición); conseguir recursos (es ⑥); cambiar el guion |
+| **No hace** | decidir estilo (eso es de edición); conseguir recursos (es ⑦); cambiar el guion |
 | **Termina cuando** | Santiago aprobó los visuales y las dos listas están generadas. El orquestador no aprueba por él |
 
 Reglas de toda sesión hija:

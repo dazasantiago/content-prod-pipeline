@@ -3,6 +3,16 @@
 Solo cambios del **sistema** (etapas, herramientas, reglas, estructura). El contenido de los proyectos
 no va aquí. Lo más nuevo, arriba. El porqué está en [DECISIONS](DECISIONS.md).
 
+## 2026-11-15
+
+- **Etapa nueva ③ `contextualizer`** (conversacional), entre ② y el schema: explica el tema y lo
+  investigado (`digest.md`), verifica cada cifra con fuente y deja `context.md`. `schema-builder` lo lee y
+  ya no explica; `script-writer` lo toma como universo de hechos. Corre en concept y case; en news, en
+  corto; otro formato o sin formato, omitida salvo que la pidas. Ver [DECISIONS](DECISIONS.md),
+  [WORKFLOW](WORKFLOW.md) y [FORMATS](FORMATS.md). Riesgo R-10.
+- **Renumeración:** schema-builder ④, script-writer ⑤, visual-script ⑥, resource-fetcher ⑦,
+  take-organizer ⑧, edit-composer ⑨ (① y ② no cambian). Las conversacionales son ③ ④ ⑤ ⑥.
+
 ## 2026-11-10
 
 - **Concept investiga, en ligera y solo con YouTube.** ① corre con el flag nuevo `--sources` del CLI

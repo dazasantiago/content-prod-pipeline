@@ -9,9 +9,9 @@ Guía práctica. Para el porqué de cada regla: [DECISIONS](DECISIONS.md). Para 
 2. Dile la **línea** (Personal Content por defecto, u Other Content), el **formato** (concept / case /
    news / otro) y si el video lleva cara o es voice-only. El orquestador no te interroga: lo que no
    digas (línea, entrega, investigación) lo toma por defecto y lo registra, junto con lo que sí dijiste,
-   en `PIPELINE-STATE.md`. Con eso decide si corre investigación y crea la carpeta del proyecto (`Raw/` y
-   `Final pieces/`).
-3. Trabaja en las sesiones hijas que te abra para ③ ④ ⑤. Cada una te dice cuándo está lista; nada
+   en `PIPELINE-STATE.md`. Con eso decide si corren investigación y contexto y crea la carpeta del proyecto
+   (`Raw/` y `Final pieces/`).
+3. Trabaja en las sesiones hijas que te abra para ③ ④ ⑤ ⑥ (③ según el formato). Cada una te dice cuándo está lista; nada
    avanza sin tu aprobación explícita.
 4. Graba con `pre-capture-guide.md` en la mano. Cuando termines, dile al orquestador **"ya grabé"**.
 5. El resto (recursos, organizar tomas, edición) corre solo. Las preguntas las hacen las sesiones hijas,
@@ -20,8 +20,9 @@ Guía práctica. Para el porqué de cada regla: [DECISIONS](DECISIONS.md). Para 
    crítico tras 3 intentos de `edit-reviewer`.
 
 **No hay modo suelto.** Toda etapa nace en el orquestador: también rehacerla (*"rehaz el guion de
-`<pieza>`"*) y pedir investigación (*"investiga `<tema>`"*; es solo la etapa ①, `schema-builder` no la
-hace). Al rehacer, el orquestador relanza la hija como revisión y marca `desactualizada` las etapas
+`<pieza>`"*), pedir investigación (*"investiga `<tema>`"*; es solo la etapa ①, `schema-builder` no la
+hace) y pedir que te expliquen el tema o lo investigado (etapa ③; `schema-builder` tampoco lo hace, y
+puedes pedirlo en cualquier sesión). Al rehacer, el orquestador relanza la hija como revisión y marca `desactualizada` las etapas
 posteriores que leen lo que cambió; te dice cuáles y no las relanza solo.
 
 ## Retomar un proyecto

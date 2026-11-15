@@ -15,7 +15,7 @@ tools: Read, Write, Glob, Bash
 Primer paso de la edición. Corre en background la mayor parte del tiempo — no es conversacional
 salvo por el gate de video generado y el reporte final.
 
-**Contexto:** `../../../WMF/DECISIONS.md` (sección Etapa 1) tiene el razonamiento de cada decisión y
+**Contexto:** `../../../WMF/DECISIONS.md` (sección `resource-fetcher`) tiene el razonamiento de cada decisión y
 `../../../WMF/ARTIFACTS.md` el formato de carpetas y del manifiesto. Esta skill es la versión
 ejecutable: si algo acá contradice a `DECISIONS.md`, gana `DECISIONS.md`.
 
